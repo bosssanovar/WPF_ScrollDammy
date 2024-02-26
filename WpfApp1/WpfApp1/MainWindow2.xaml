@@ -43,7 +43,7 @@
         <!--閲覧ビュー-->
         <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Collapsed"
                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-            <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#EEEEEE">
+            <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#F5F5F5">
             </Canvas>
         </ScrollViewer>
 

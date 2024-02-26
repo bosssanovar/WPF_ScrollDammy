@@ -206,13 +206,14 @@ namespace WpfApp1
             foreach (var index in indexes)
             {
                 Items[index.RowIndex].SetOn(index.ColumnIndex);
-
-                UpdatePreview();
             }
+
+            UpdatePreview();
         }
 
         private void UpdatePreview()
         {
+            // TODO K.I : 表示領域のみを描画するように。
             Dispatcher.InvokeAsync(() =>
             {
                 previewCanvas.Children.Clear();
@@ -226,18 +227,24 @@ namespace WpfApp1
                     {
                         if (Items[rowIndex].Values[columnIndex].Value)
                         {
-                            var rectangle = new Rectangle();
-                            rectangle.Fill = Brushes.LightSkyBlue;
-                            rectangle.Width = 16;
-                            rectangle.Height = 16;
-                            Canvas.SetTop(rectangle, 28 * rowIndex + 6);
-                            Canvas.SetLeft(rectangle, 28 * columnIndex + 6);
+                            Rectangle rectangle = CreateRectangle(rowIndex, columnIndex);
 
                             previewCanvas.Children.Add(rectangle);
                         }
                     }
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        private static Rectangle CreateRectangle(int rowIndex, int columnIndex)
+        {
+            var rectangle = new Rectangle();
+            rectangle.Fill = Brushes.LightSkyBlue;
+            rectangle.Width = 16;
+            rectangle.Height = 16;
+            Canvas.SetTop(rectangle, 28 * rowIndex + 6);
+            Canvas.SetLeft(rectangle, 28 * columnIndex + 6);
+            return rectangle;
         }
 
         #endregion
