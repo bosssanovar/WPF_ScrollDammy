@@ -26,6 +26,9 @@ namespace WpfApp1
 
         public ObservableCollection<Detail> Items { get; private set; } = new ObservableCollection<Detail>();
 
+        private ScrollSynchronizer? _verticalScrollSynchronizer;
+        private ScrollSynchronizer? _horizontalScrollSynchronizer;
+
         public MainWindow2()
         {
             InitializeComponent();
@@ -46,7 +49,30 @@ namespace WpfApp1
             Dispatcher.InvokeAsync(() =>
             {
                 Cursor = null;
+
+                InitScrollSynchronizer();
             }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        private void InitScrollSynchronizer()
+        {
+            var scrollList = new List<ScrollViewer>();
+            scrollList.Add(verticalScroll);
+            var gridScroll = DataGridHelper.GetScrollViewer(grid);
+            if (gridScroll is not null)
+            {
+                scrollList.Add(gridScroll);
+            }
+            _verticalScrollSynchronizer = new ScrollSynchronizer(scrollList, SynchronizeDirection.Vertical);
+
+            scrollList = new List<ScrollViewer>();
+            scrollList.Add(horizontalScroll);
+            gridScroll = DataGridHelper.GetScrollViewer(grid);
+            if (gridScroll is not null)
+            {
+                scrollList.Add(gridScroll);
+            }
+            _verticalScrollSynchronizer = new ScrollSynchronizer(scrollList, SynchronizeDirection.Horizontal);
         }
 
         #region 行列の初期化

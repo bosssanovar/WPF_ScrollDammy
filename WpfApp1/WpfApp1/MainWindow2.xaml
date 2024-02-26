@@ -12,7 +12,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DataGrid表示初期化中..." FontSize="20"/>
 
@@ -24,7 +29,8 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
                   CanUserResizeRows="False" CanUserSortColumns="False"
                   VirtualizingPanel.ScrollUnit="Pixel" MaxWidth="2000" MaxHeight="1200"
-                  ScrollViewer.ScrollChanged="grid_ScrollChanged">
+                  ScrollViewer.ScrollChanged="grid_ScrollChanged"
+                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="DataGridCell_MouseLeftButtonUp"/>
@@ -73,5 +79,15 @@
                 </Thumb.Template>
             </Thumb>
         </Canvas>
+
+        <ScrollViewer x:Name="verticalScroll" Grid.Column="1" Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+            <Grid Height="17,920" Width="0"/>
+        </ScrollViewer>
+
+        <ScrollViewer x:Name="horizontalScroll" Grid.Column="0" Grid.Row="2"
+                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+            <Grid Width="17,920" Height="0"/>
+        </ScrollViewer>
     </Grid>
 </Window>
