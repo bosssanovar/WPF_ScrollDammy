@@ -41,9 +41,10 @@
         </DataGrid>
         
         <!--閲覧ビュー-->
-        <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Collapsed"
-                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Hidden"
+                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" ScrollChanged="previewScroll_ScrollChanged">
             <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#F5F5F5">
+                <local:Squares x:Name="squares"/>
             </Canvas>
         </ScrollViewer>
 

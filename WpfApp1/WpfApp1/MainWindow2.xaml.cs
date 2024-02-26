@@ -45,6 +45,8 @@ namespace WpfApp1
 
             InitColumns(InitCulumnCount);
 
+            squares.ScrollViewer = previewScroll;
+
             grid.Visibility = Visibility.Visible;
 
             Dispatcher.InvokeAsync(() =>
@@ -199,38 +201,33 @@ namespace WpfApp1
 
         private void UpdatePreview()
         {
-            // TODO K.I : 表示領域のみを描画するように。
-            Dispatcher.InvokeAsync(() =>
+            squares.Objects.Clear();
+
+            var rowMax = Items.Count;
+            var colmunMax = Items[0].Values.Count;
+
+            for (int rowIndex = 0; rowIndex < rowMax; rowIndex++)
             {
-                previewCanvas.Children.Clear();
-
-                var rowMax = Items.Count;
-                var colmunMax = Items[0].Values.Count;
-
-                for (int rowIndex = 0; rowIndex < rowMax; rowIndex++)
+                for (int columnIndex = 0; columnIndex < colmunMax; columnIndex++)
                 {
-                    for (int columnIndex = 0; columnIndex < colmunMax; columnIndex++)
+                    if (Items[rowIndex].Values[columnIndex].Value)
                     {
-                        if (Items[rowIndex].Values[columnIndex].Value)
-                        {
-                            Rectangle rectangle = CreateRectangle(rowIndex, columnIndex);
+                        Square square = CreateSquare(rowIndex, columnIndex);
 
-                            previewCanvas.Children.Add(rectangle);
-                        }
+                        squares.Objects.Add(square);
                     }
                 }
-            }, System.Windows.Threading.DispatcherPriority.Background);
+            }
         }
 
-        private static Rectangle CreateRectangle(int rowIndex, int columnIndex)
+        private static Square CreateSquare(int rowIndex, int columnIndex)
         {
-            var rectangle = new Rectangle();
-            rectangle.Fill = Brushes.LightSkyBlue;
-            rectangle.Width = 16;
-            rectangle.Height = 16;
-            Canvas.SetTop(rectangle, 28 * rowIndex + 6);
-            Canvas.SetLeft(rectangle, 28 * columnIndex + 6);
-            return rectangle;
+            var square = new Square();
+            square.Width = 16;
+            square.Height = 16;
+            Canvas.SetTop(square, 28 * rowIndex + 6);
+            Canvas.SetLeft(square, 28 * columnIndex + 6);
+            return square;
         }
 
         #endregion
@@ -318,6 +315,8 @@ namespace WpfApp1
 
                     previewScroll.Visibility = Visibility.Visible;
 
+                    squares.InvalidateVisual();
+
                     e.Handled = true;
                 }
             }
@@ -399,5 +398,10 @@ namespace WpfApp1
         #endregion
 
         #endregion
+
+        private void previewScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            squares.InvalidateVisual();
+        }
     }
 }
