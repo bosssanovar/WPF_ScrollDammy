@@ -1,7 +1,9 @@
 ﻿using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +31,8 @@ namespace WpfApp1
         private ScrollSynchronizer? _verticalScrollSynchronizer;
         private ScrollSynchronizer? _horizontalScrollSynchronizer;
 
+        private bool _isScrolling = false;
+
         public MainWindow2()
         {
             InitializeComponent();
@@ -51,7 +55,48 @@ namespace WpfApp1
                 Cursor = null;
 
                 InitScrollSynchronizer();
+
+                SetScrollStartEndEvent();
             }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        private void SetScrollStartEndEvent()
+        {
+            var scrollViewer = DataGridHelper.GetScrollViewer(grid);
+            if (scrollViewer is null) return;
+
+            // スクロール終了を購読する
+            var scrollObservable = Observable.FromEventPattern<ScrollChangedEventHandler, ScrollChangedEventArgs>(
+                h => scrollViewer.ScrollChanged += h,
+                h => scrollViewer.ScrollChanged -= h);
+
+            scrollObservable
+                .Subscribe(e => {
+                    if (!_isScrolling)
+                    {
+                        if (e.EventArgs.HorizontalChange != 0 || e.EventArgs.VerticalChange != 0)
+                        {
+                            // スクロール開始
+                            _isScrolling = true;
+                            Debug.WriteLine("スクロール開始");
+                            grid.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                });
+            scrollObservable
+                .Throttle(TimeSpan.FromMilliseconds(500))  // スクロール操作が終了したと見なす無操作時間
+                .ObserveOnUIDispatcher()
+                .Subscribe(_ =>
+                {
+                    if (_isScrolling)
+                    {
+                        // スクロール終了
+                        Debug.WriteLine("スクロール終了");
+                        grid.Visibility = Visibility.Visible;
+
+                        _isScrolling = false;
+                    }
+                });
         }
 
         private void InitScrollSynchronizer()
