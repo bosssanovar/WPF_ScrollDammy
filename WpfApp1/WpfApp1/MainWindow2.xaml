@@ -8,7 +8,7 @@
         Title="MainWindow" Height="500" Width="600" d:Width="600"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         WindowState="Maximized" SizeChanged="Window_SizeChanged">
-    <Grid Margin="5">
+    <Grid x:Name="gridPanel" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -81,12 +81,12 @@
         </Canvas>
 
         <ScrollViewer x:Name="verticalScroll" Grid.Column="1" Grid.Row="1"
-                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
             <Grid Height="17,920" Width="0"/>
         </ScrollViewer>
 
         <ScrollViewer x:Name="horizontalScroll" Grid.Column="0" Grid.Row="2"
-                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
             <Grid Width="17,920" Height="0"/>
         </ScrollViewer>
     </Grid>

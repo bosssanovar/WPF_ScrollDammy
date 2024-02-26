@@ -55,48 +55,7 @@ namespace WpfApp1
                 Cursor = null;
 
                 InitScrollSynchronizer();
-
-                SetScrollStartEndEvent();
             }, System.Windows.Threading.DispatcherPriority.Background);
-        }
-
-        private void SetScrollStartEndEvent()
-        {
-            var scrollViewer = DataGridHelper.GetScrollViewer(grid);
-            if (scrollViewer is null) return;
-
-            // スクロール終了を購読する
-            var scrollObservable = Observable.FromEventPattern<ScrollChangedEventHandler, ScrollChangedEventArgs>(
-                h => scrollViewer.ScrollChanged += h,
-                h => scrollViewer.ScrollChanged -= h);
-
-            scrollObservable
-                .Subscribe(e => {
-                    if (!_isScrolling)
-                    {
-                        if (e.EventArgs.HorizontalChange != 0 || e.EventArgs.VerticalChange != 0)
-                        {
-                            // スクロール開始
-                            _isScrolling = true;
-                            Debug.WriteLine("スクロール開始");
-                            grid.Visibility = Visibility.Collapsed;
-                        }
-                    }
-                });
-            scrollObservable
-                .Throttle(TimeSpan.FromMilliseconds(500))  // スクロール操作が終了したと見なす無操作時間
-                .ObserveOnUIDispatcher()
-                .Subscribe(_ =>
-                {
-                    if (_isScrolling)
-                    {
-                        // スクロール終了
-                        Debug.WriteLine("スクロール終了");
-                        grid.Visibility = Visibility.Visible;
-
-                        _isScrolling = false;
-                    }
-                });
         }
 
         private void InitScrollSynchronizer()
@@ -325,6 +284,8 @@ namespace WpfApp1
                 {
                     border.BorderThickness = new Thickness(1);
 
+                    gridPanel.Children.Remove(grid);
+
                     e.Handled = true;
                 }
             }
@@ -339,6 +300,8 @@ namespace WpfApp1
                 if (null != border)
                 {
                     border.BorderThickness = new Thickness(0);
+
+                    gridPanel.Children.Insert(1, grid);
 
                     e.Handled = true;
                 }
