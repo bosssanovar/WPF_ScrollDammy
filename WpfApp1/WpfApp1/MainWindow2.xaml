@@ -44,12 +44,6 @@
         <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Collapsed"
                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
             <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#EEEEEE">
-                <Rectangle Canvas.Top="0" Canvas.Left="0" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
-                <Rectangle Canvas.Top="30" Canvas.Left="30" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
-                <Rectangle Canvas.Top="60" Canvas.Left="60" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
-                <Rectangle Canvas.Top="90" Canvas.Left="90" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
-                <Rectangle Canvas.Top="120" Canvas.Left="120" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
-                <Rectangle Canvas.Top="150" Canvas.Left="150" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
             </Canvas>
         </ScrollViewer>
 

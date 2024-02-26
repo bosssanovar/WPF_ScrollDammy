@@ -144,6 +144,8 @@ namespace WpfApp1
                 var rowIndex = DataGridHelper.GetSelectedRowIndex(grid);
 
                 Items[rowIndex].Invert(columnIndex);
+
+                UpdatePreview();
             }
         }
 
@@ -194,6 +196,8 @@ namespace WpfApp1
         {
             var rowIndex = DataGridHelper.GetSelectedRowIndex(grid);
             Items[rowIndex].SetAll(true);
+
+            UpdatePreview();
         }
 
         private void AreaOn(object sender, RoutedEventArgs e)
@@ -202,7 +206,38 @@ namespace WpfApp1
             foreach (var index in indexes)
             {
                 Items[index.RowIndex].SetOn(index.ColumnIndex);
+
+                UpdatePreview();
             }
+        }
+
+        private void UpdatePreview()
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                previewCanvas.Children.Clear();
+
+                var rowMax = Items.Count;
+                var colmunMax = Items[0].Values.Count;
+
+                for (int rowIndex = 0; rowIndex < rowMax; rowIndex++)
+                {
+                    for (int columnIndex = 0; columnIndex < colmunMax; columnIndex++)
+                    {
+                        if (Items[rowIndex].Values[columnIndex].Value)
+                        {
+                            var rectangle = new Rectangle();
+                            rectangle.Fill = Brushes.LightSkyBlue;
+                            rectangle.Width = 16;
+                            rectangle.Height = 16;
+                            Canvas.SetTop(rectangle, 28 * rowIndex + 6);
+                            Canvas.SetLeft(rectangle, 28 * columnIndex + 6);
+
+                            previewCanvas.Children.Add(rectangle);
+                        }
+                    }
+                }
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
 
         #endregion
@@ -297,6 +332,8 @@ namespace WpfApp1
 
         private void Thumb_DragCompleted2(object sender, DragCompletedEventArgs e)
         {
+            Cursor = Cursors.Wait;
+
             var thumb = sender as Thumb;
             if (null != thumb)
             {
@@ -310,6 +347,8 @@ namespace WpfApp1
                     Dispatcher.InvokeAsync(() =>
                     {
                         previewScroll.Visibility = Visibility.Collapsed;
+
+                        Cursor = null;
                     }, System.Windows.Threading.DispatcherPriority.Background);
 
                     e.Handled = true;
