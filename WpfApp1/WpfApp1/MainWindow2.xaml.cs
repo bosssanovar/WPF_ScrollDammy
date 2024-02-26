@@ -61,6 +61,7 @@ namespace WpfApp1
         private void InitScrollSynchronizer()
         {
             var scrollList = new List<ScrollViewer>();
+            scrollList.Add(previewScroll);
             scrollList.Add(verticalScroll);
             var gridScroll = DataGridHelper.GetScrollViewer(grid);
             if (gridScroll is not null)
@@ -70,6 +71,7 @@ namespace WpfApp1
             _verticalScrollSynchronizer = new ScrollSynchronizer(scrollList, SynchronizeDirection.Vertical);
 
             scrollList = new List<ScrollViewer>();
+            scrollList.Add(previewScroll);
             scrollList.Add(horizontalScroll);
             gridScroll = DataGridHelper.GetScrollViewer(grid);
             if (gridScroll is not null)
@@ -286,6 +288,8 @@ namespace WpfApp1
 
                     gridPanel.Children.Remove(grid);
 
+                    previewScroll.Visibility = Visibility.Visible;
+
                     e.Handled = true;
                 }
             }
@@ -302,6 +306,11 @@ namespace WpfApp1
                     border.BorderThickness = new Thickness(0);
 
                     gridPanel.Children.Insert(1, grid);
+
+                    Dispatcher.InvokeAsync(() =>
+                    {
+                        previewScroll.Visibility = Visibility.Collapsed;
+                    }, System.Windows.Threading.DispatcherPriority.Background);
 
                     e.Handled = true;
                 }
@@ -328,6 +337,9 @@ namespace WpfApp1
             Canvas.SetTop(thumb, y);
 
             DataGridHelper.MoveScrollTo(grid, Canvas.GetLeft(thumb) / canvas.ActualWidth, Canvas.GetTop(thumb) / canvas.ActualHeight);
+
+            previewScroll.ScrollToVerticalOffset(previewScroll.ScrollableHeight * (Canvas.GetTop(thumb) / canvas.ActualHeight));
+            previewScroll.ScrollToHorizontalOffset(previewScroll.ScrollableWidth * (Canvas.GetLeft(thumb) / canvas.ActualWidth));
 
             e.Handled = true;
         }

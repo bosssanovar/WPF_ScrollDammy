@@ -21,6 +21,7 @@
 
         <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DataGrid表示初期化中..." FontSize="20"/>
 
+        <!--設定グリッド-->
         <DataGrid x:Name="grid" Grid.Row="1" Margin="5" AutoGenerateColumns="False" Visibility="Collapsed"
                   EnableColumnVirtualization="True" EnableRowVirtualization="True"
                   VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling"
@@ -38,7 +39,21 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
+        
+        <!--閲覧ビュー-->
+        <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Collapsed"
+                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+            <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#EEEEEE">
+                <Rectangle Canvas.Top="0" Canvas.Left="0" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+                <Rectangle Canvas.Top="30" Canvas.Left="30" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+                <Rectangle Canvas.Top="60" Canvas.Left="60" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+                <Rectangle Canvas.Top="90" Canvas.Left="90" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+                <Rectangle Canvas.Top="120" Canvas.Left="120" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+                <Rectangle Canvas.Top="150" Canvas.Left="150" Width="10" Height="10" Margin="5" Fill="LightSkyBlue"/>
+            </Canvas>
+        </ScrollViewer>
 
+        <!--ミニマップ-->
         <Canvas Grid.Row="1" Margin="5">
             <Thumb x:Name="map" Width="200" Height="200"
                    Canvas.Right="0"
@@ -54,9 +69,9 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <TextBlock Margin="5" HorizontalAlignment="Center" Text="ミニマップ" Foreground="White"/>
-                                
+
                                 <Canvas x:Name="Area_Canvas" Grid.Row="1" Margin="5">
                                     <Thumb x:Name="Area_Thumb" Width="50" Height="50"
                                            Canvas.Left="0"
@@ -67,7 +82,7 @@
                                         <Thumb.Template>
                                             <ControlTemplate>
                                                 <Border x:Name="Area_Thumb_Border" BorderBrush="Red" BorderThickness="0" Background="#99000000">
-                                                    
+
                                                 </Border>
                                             </ControlTemplate>
                                         </Thumb.Template>
@@ -82,12 +97,12 @@
 
         <ScrollViewer x:Name="verticalScroll" Grid.Column="1" Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-            <Grid Height="17,920" Width="0"/>
+            <Grid Height="17920" Width="0"/>
         </ScrollViewer>
 
         <ScrollViewer x:Name="horizontalScroll" Grid.Column="0" Grid.Row="2"
                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-            <Grid Width="17,920" Height="0"/>
+            <Grid Width="17920" Height="0"/>
         </ScrollViewer>
     </Grid>
 </Window>
