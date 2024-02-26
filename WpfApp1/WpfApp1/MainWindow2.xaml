@@ -88,15 +88,5 @@
                 </Thumb.Template>
             </Thumb>
         </Canvas>
-
-        <ScrollViewer x:Name="verticalScroll" Grid.Column="1" Grid.Row="1"
-                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-            <Grid Height="17920" Width="0"/>
-        </ScrollViewer>
-
-        <ScrollViewer x:Name="horizontalScroll" Grid.Column="0" Grid.Row="2"
-                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-            <Grid Width="17920" Height="0"/>
-        </ScrollViewer>
     </Grid>
 </Window>
