@@ -263,6 +263,9 @@ namespace WpfApp1
         {
             Canvas.SetRight(map, 0);
             Canvas.SetBottom(map, 0);
+
+            squares.InvalidateVisual();
+            MoveScroll();
         }
 
         #endregion
@@ -379,6 +382,11 @@ namespace WpfApp1
         {
             squares.InvalidateVisual();
 
+            MoveScroll();
+        }
+
+        private void MoveScroll()
+        {
             var ratios = GetScrollViewerRatio(previewScroll);
             MoveMiniMapThumb(ratios);
             MoveHorizontalScrollThumb(ratios);
