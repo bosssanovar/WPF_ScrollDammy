@@ -199,37 +199,6 @@ namespace WpfApp1
             UpdatePreview();
         }
 
-        private void UpdatePreview()
-        {
-            squares.Objects.Clear();
-
-            var rowMax = Items.Count;
-            var colmunMax = Items[0].Values.Count;
-
-            for (int rowIndex = 0; rowIndex < rowMax; rowIndex++)
-            {
-                for (int columnIndex = 0; columnIndex < colmunMax; columnIndex++)
-                {
-                    if (Items[rowIndex].Values[columnIndex].Value)
-                    {
-                        Square square = CreateSquare(rowIndex, columnIndex);
-
-                        squares.Objects.Add(square);
-                    }
-                }
-            }
-        }
-
-        private static Square CreateSquare(int rowIndex, int columnIndex)
-        {
-            var square = new Square();
-            square.Width = 16;
-            square.Height = 16;
-            Canvas.SetTop(square, 28 * rowIndex + 6);
-            Canvas.SetLeft(square, 28 * columnIndex + 6);
-            return square;
-        }
-
         #endregion
 
         #region ミニマップ
@@ -310,15 +279,15 @@ namespace WpfApp1
                 if (null != border)
                 {
                     border.BorderThickness = new Thickness(1);
-
-                    gridPanel.Children.Remove(grid);
-
-                    previewScroll.Visibility = Visibility.Visible;
-
-                    squares.InvalidateVisual();
-
-                    e.Handled = true;
                 }
+
+                gridPanel.Children.Remove(grid);
+
+                previewScroll.Visibility = Visibility.Visible;
+
+                squares.InvalidateVisual();
+
+                e.Handled = true;
             }
         }
 
@@ -333,18 +302,18 @@ namespace WpfApp1
                 if (null != border)
                 {
                     border.BorderThickness = new Thickness(0);
-
-                    gridPanel.Children.Insert(1, grid);
-
-                    Dispatcher.InvokeAsync(() =>
-                    {
-                        previewScroll.Visibility = Visibility.Collapsed;
-
-                        Cursor = null;
-                    }, System.Windows.Threading.DispatcherPriority.Background);
-
-                    e.Handled = true;
                 }
+
+                gridPanel.Children.Insert(1, grid);
+
+                Dispatcher.InvokeAsync(() =>
+                {
+                    previewScroll.Visibility = Visibility.Collapsed;
+
+                    Cursor = null;
+                }, System.Windows.Threading.DispatcherPriority.Background);
+
+                e.Handled = true;
             }
         }
 
@@ -381,15 +350,20 @@ namespace WpfApp1
 
         private void grid_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            var retios = DataGridHelper.GetScrollAreaRaio(grid);
+
+            MoveMiniMapThumb(retios);
+        }
+
+        private void MoveMiniMapThumb((double HorizontalRatio, double VerticalRatio) ratios)
+        {
             var mapCanvas = map.Template.FindName("Area_Canvas", map) as Canvas;
             if (null == mapCanvas) return;
             var mapThumb = map.Template.FindName("Area_Thumb", map) as Thumb;
             if (null == mapThumb) return;
 
-            var retios = DataGridHelper.GetScrollAreaRaio(grid);
-
-            var x = mapCanvas.ActualWidth * retios.HorizontalRatio;
-            var y = mapCanvas.ActualHeight * retios.VerticalRatio;
+            var x = mapCanvas.ActualWidth * ratios.HorizontalRatio;
+            var y = mapCanvas.ActualHeight * ratios.VerticalRatio;
 
             Canvas.SetLeft(mapThumb, x);
             Canvas.SetTop(mapThumb, y);
@@ -399,9 +373,77 @@ namespace WpfApp1
 
         #endregion
 
+        #region ダミー表示
+
+        private void UpdatePreview()
+        {
+            squares.Objects.Clear();
+
+            var rowMax = Items.Count;
+            var colmunMax = Items[0].Values.Count;
+
+            for (int rowIndex = 0; rowIndex < rowMax; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < colmunMax; columnIndex++)
+                {
+                    if (Items[rowIndex].Values[columnIndex].Value)
+                    {
+                        Square square = CreateSquare(rowIndex, columnIndex);
+
+                        squares.Objects.Add(square);
+                    }
+                }
+            }
+        }
+
+        private static Square CreateSquare(int rowIndex, int columnIndex)
+        {
+            var square = new Square();
+            square.Width = 16;
+            square.Height = 16;
+            Canvas.SetTop(square, 28 * rowIndex + 6);
+            Canvas.SetLeft(square, 28 * columnIndex + 6);
+            return square;
+        }
+
         private void previewScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             squares.InvalidateVisual();
+
+            var ratios = GetScrollViewerRatio(previewScroll);
+            MoveMiniMapThumb(ratios);
+            MoveHorizontalScrollThumb(ratios);
+            MoveVerticalScrollThumb(ratios);
         }
+
+        private static (double HorizontalRatio, double VerticalRatio) GetScrollViewerRatio(ScrollViewer scroll)
+        {
+            var gridWidth = scroll.ScrollableWidth;
+            var gridHeight = scroll.ScrollableHeight;
+
+            return ((scroll.HorizontalOffset / gridWidth), (scroll.VerticalOffset / gridHeight));
+        }
+
+        #endregion
+
+        #region スクロールバー　垂直
+
+        private void MoveVerticalScrollThumb((double HorizontalRatio, double VerticalRatio) ratios)
+        {
+            var y = verticalScrollCanvas.ActualHeight * ratios.VerticalRatio;
+            Canvas.SetTop(verticalScrollThumb, y);
+        }
+
+        #endregion
+
+        #region スクロールバー　水平
+
+        private void MoveHorizontalScrollThumb((double HorizontalRatio, double VerticalRatio) ratios)
+        {
+            var x = horizontalScrollCanvas.ActualWidth * ratios.HorizontalRatio;
+            Canvas.SetLeft(horizontalScrollThumb, x);
+        }
+
+        #endregion
     }
 }

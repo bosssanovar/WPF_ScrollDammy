@@ -39,10 +39,11 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        
+
         <!--閲覧ビュー-->
         <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Hidden"
-                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" ScrollChanged="previewScroll_ScrollChanged">
+                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                      ScrollChanged="previewScroll_ScrollChanged">
             <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#F5F5F5">
                 <local:Squares x:Name="squares"/>
             </Canvas>
@@ -89,5 +90,36 @@
                 </Thumb.Template>
             </Thumb>
         </Canvas>
+
+        <!--スクロールバー　垂直-->
+        <Canvas x:Name="verticalScrollCanvas" Grid.Row="1" Grid.Column="1" Width="20">
+            <Thumb x:Name="verticalScrollThumb" Width="20" Height="50"
+                   Canvas.Left="0" Canvas.Top="0"
+                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="Thumb_DragDelta2">
+                <Thumb.Template>
+                    <ControlTemplate>
+                        <Border BorderBrush="Red" BorderThickness="0" Background="#99000000">
+
+                        </Border>
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
+
+        <!--スクロールバー　水平-->
+        <Canvas x:Name="horizontalScrollCanvas" Grid.Row="2" Height="20">
+            <Thumb x:Name="horizontalScrollThumb" Width="50" Height="20"
+                   Canvas.Left="0" Canvas.Top="0"
+                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="Thumb_DragDelta2">
+                <Thumb.Template>
+                    <ControlTemplate>
+                        <Border BorderBrush="Red" BorderThickness="0" Background="#99000000">
+
+                        </Border>
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
+
     </Grid>
 </Window>
