@@ -31,6 +31,9 @@
                   CanUserResizeRows="False" CanUserSortColumns="False"
                   VirtualizingPanel.ScrollUnit="Pixel" MaxWidth="2000" MaxHeight="1200"
                   HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+            <DataGrid.InputBindings>
+                <KeyBinding Gesture="Ctrl+A" Command="ApplicationCommands.NotACommand"/>
+            </DataGrid.InputBindings>
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="DataGridCell_MouseLeftButtonUp"/>

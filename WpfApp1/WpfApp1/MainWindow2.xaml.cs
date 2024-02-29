@@ -37,6 +37,8 @@ namespace WpfApp1
             InitData(InitCulumnCount);
         }
 
+        #region 画面の初期化
+
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
@@ -68,6 +70,7 @@ namespace WpfApp1
             }
             _scrollSynchronizer = new ScrollSynchronizer(scrollList);
         }
+        #endregion
 
         #region 行列の初期化
 
@@ -390,13 +393,13 @@ namespace WpfApp1
 
         private void MoveScroll()
         {
-            var ratios = GetScrollViewerRatio(previewScroll);
+            var ratios = GetScrollRatio(previewScroll);
             MoveMiniMapThumb(ratios);
             MoveHorizontalScrollThumb(ratios);
             MoveVerticalScrollThumb(ratios);
         }
 
-        private static (double HorizontalRatio, double VerticalRatio) GetScrollViewerRatio(ScrollViewer scroll)
+        private static (double HorizontalRatio, double VerticalRatio) GetScrollRatio(ScrollViewer scroll)
         {
             var gridWidth = scroll.ScrollableWidth;
             var gridHeight = scroll.ScrollableHeight;
