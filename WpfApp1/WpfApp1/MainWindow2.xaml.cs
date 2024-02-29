@@ -319,27 +319,8 @@ namespace WpfApp1
 
         private void Thumb_DragDelta2(object sender, DragDeltaEventArgs e)
         {
-            var thumb = sender as Thumb;
-            if (null == thumb) return;
-
-            var x = Canvas.GetLeft(thumb) + e.HorizontalChange;
-            var y = Canvas.GetTop(thumb) + e.VerticalChange;
-
-            var canvas = thumb.Parent as Canvas;
-            if (null == canvas) return;
-
-            x = Math.Max(x, 0);
-            y = Math.Max(y, 0);
-            x = Math.Min(x, canvas.ActualWidth - thumb.ActualWidth);
-            y = Math.Min(y, canvas.ActualHeight - thumb.ActualHeight);
-
-            Canvas.SetLeft(thumb, x);
-            Canvas.SetTop(thumb, y);
-
-            DataGridHelper.MoveScrollTo(grid, Canvas.GetLeft(thumb) / canvas.ActualWidth, Canvas.GetTop(thumb) / canvas.ActualHeight);
-
-            previewScroll.ScrollToVerticalOffset(previewScroll.ScrollableHeight * (Canvas.GetTop(thumb) / canvas.ActualHeight));
-            previewScroll.ScrollToHorizontalOffset(previewScroll.ScrollableWidth * (Canvas.GetLeft(thumb) / canvas.ActualWidth));
+            VerticalScrollDelta(sender, e);
+            HorizontalScrollDelta(sender, e);
 
             e.Handled = true;
         }
@@ -436,24 +417,33 @@ namespace WpfApp1
 
         private void verticalScrollThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            var thumb = sender as Thumb;
-            if (null == thumb) return;
-
-            var y = Canvas.GetTop(thumb) + e.VerticalChange;
-
-            var canvas = thumb.Parent as Canvas;
-            if (null == canvas) return;
-
-            y = Math.Max(y, 0);
-            y = Math.Min(y, canvas.ActualHeight - thumb.ActualHeight);
-
-            Canvas.SetTop(thumb, y);
-
-            DataGridHelper.MoveVerticalScrollTo(grid, Canvas.GetTop(thumb) / canvas.ActualHeight);
-
-            previewScroll.ScrollToVerticalOffset(previewScroll.ScrollableHeight * (Canvas.GetTop(thumb) / canvas.ActualHeight));
+            VerticalScrollDelta(sender, e);
 
             e.Handled = true;
+        }
+
+        private void VerticalScrollDelta(object sender, DragDeltaEventArgs e)
+        {
+            var thumb = sender as Thumb;
+            if (null != thumb)
+            {
+
+                var y = Canvas.GetTop(thumb) + e.VerticalChange;
+
+                var canvas = thumb.Parent as Canvas;
+                if (null != canvas)
+                {
+
+                    y = Math.Max(y, 0);
+                    y = Math.Min(y, canvas.ActualHeight - thumb.ActualHeight);
+
+                    Canvas.SetTop(thumb, y);
+
+                    DataGridHelper.MoveVerticalScrollTo(grid, Canvas.GetTop(thumb) / canvas.ActualHeight);
+
+                    previewScroll.ScrollToVerticalOffset(previewScroll.ScrollableHeight * (Canvas.GetTop(thumb) / canvas.ActualHeight));
+                }
+            }
         }
 
         #endregion
@@ -470,24 +460,32 @@ namespace WpfApp1
 
         private void horizontalScrollThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            var thumb = sender as Thumb;
-            if (null == thumb) return;
-
-            var x = Canvas.GetLeft(thumb) + e.HorizontalChange;
-
-            var canvas = thumb.Parent as Canvas;
-            if (null == canvas) return;
-
-            x = Math.Max(x, 0);
-            x = Math.Min(x, canvas.ActualWidth - thumb.ActualWidth);
-
-            Canvas.SetLeft(thumb, x);
-
-            DataGridHelper.MoveHorizontalScrollTo(grid, Canvas.GetLeft(thumb) / canvas.ActualWidth);
-
-            previewScroll.ScrollToHorizontalOffset(previewScroll.ScrollableWidth * (Canvas.GetLeft(thumb) / canvas.ActualWidth));
+            HorizontalScrollDelta(sender, e);
 
             e.Handled = true;
+        }
+
+        private void HorizontalScrollDelta(object sender, DragDeltaEventArgs e)
+        {
+            var thumb = sender as Thumb;
+            if (null != thumb)
+            {
+                var x = Canvas.GetLeft(thumb) + e.HorizontalChange;
+
+                var canvas = thumb.Parent as Canvas;
+                if (null != canvas)
+                {
+
+                    x = Math.Max(x, 0);
+                    x = Math.Min(x, canvas.ActualWidth - thumb.ActualWidth);
+
+                    Canvas.SetLeft(thumb, x);
+
+                    DataGridHelper.MoveHorizontalScrollTo(grid, Canvas.GetLeft(thumb) / canvas.ActualWidth);
+
+                    previewScroll.ScrollToHorizontalOffset(previewScroll.ScrollableWidth * (Canvas.GetLeft(thumb) / canvas.ActualWidth));
+                }
+            }
         }
     }
 }
