@@ -46,14 +46,27 @@ namespace WpfApp1
 
         public static void MoveScrollTo(DataGrid grid, double horizontalRatio,  double verticalRatio)
         {
+            MoveVerticalScrollTo(grid, verticalRatio);
+            MoveHorizontalScrollTo(grid, horizontalRatio);
+        }
+
+        public static void MoveVerticalScrollTo(DataGrid grid, double verticalRatio)
+        {
+            var scroll = GetScrollViewer(grid);
+            if (scroll is null) return;
+
+            var gridHeight = scroll.ScrollableHeight;
+
+            scroll.ScrollToVerticalOffset(gridHeight * verticalRatio);
+        }
+        public static void MoveHorizontalScrollTo(DataGrid grid, double horizontalRatio)
+        {
             var scroll = GetScrollViewer(grid);
             if (scroll is null) return;
 
             var gridWidth = scroll.ScrollableWidth;
-            var gridHeight = scroll.ScrollableHeight;
 
             scroll.ScrollToHorizontalOffset(gridWidth * horizontalRatio);
-            scroll.ScrollToVerticalOffset(gridHeight * verticalRatio);
         }
 
         public static ScrollViewer? GetScrollViewer(DataGrid grid)

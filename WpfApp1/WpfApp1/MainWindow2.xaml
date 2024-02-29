@@ -95,7 +95,7 @@
         <Canvas x:Name="verticalScrollCanvas" Grid.Row="1" Grid.Column="1" Width="20">
             <Thumb x:Name="verticalScrollThumb" Width="20" Height="50"
                    Canvas.Left="0" Canvas.Top="0"
-                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="Thumb_DragDelta2">
+                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="verticalScrollThumb_DragDelta">
                 <Thumb.Template>
                     <ControlTemplate>
                         <Border BorderBrush="Red" BorderThickness="0" Background="#99000000">
@@ -110,7 +110,7 @@
         <Canvas x:Name="horizontalScrollCanvas" Grid.Row="2" Height="20">
             <Thumb x:Name="horizontalScrollThumb" Width="50" Height="20"
                    Canvas.Left="0" Canvas.Top="0"
-                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="Thumb_DragDelta2">
+                   DragStarted="Thumb_DragStarted2" DragCompleted="Thumb_DragCompleted2" DragDelta="horizontalScrollThumb_DragDelta">
                 <Thumb.Template>
                     <ControlTemplate>
                         <Border BorderBrush="Red" BorderThickness="0" Background="#99000000">
