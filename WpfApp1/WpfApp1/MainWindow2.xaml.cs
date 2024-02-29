@@ -205,7 +205,6 @@ namespace WpfApp1
 
         #region 表示位置
 
-
         private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             var thumb = sender as Thumb;
@@ -323,17 +322,6 @@ namespace WpfApp1
             HorizontalScrollDelta(sender, e);
 
             e.Handled = true;
-        }
-
-        #endregion
-
-        #region スクロール同期
-
-        private void grid_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            var retios = DataGridHelper.GetScrollAreaRaio(grid);
-
-            MoveMiniMapThumb(retios);
         }
 
         private void MoveMiniMapThumb((double HorizontalRatio, double VerticalRatio) ratios)
@@ -456,8 +444,6 @@ namespace WpfApp1
             Canvas.SetLeft(horizontalScrollThumb, x);
         }
 
-        #endregion
-
         private void horizontalScrollThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             HorizontalScrollDelta(sender, e);
@@ -487,5 +473,7 @@ namespace WpfApp1
                 }
             }
         }
+
+        #endregion
     }
 }

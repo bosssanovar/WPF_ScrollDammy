@@ -30,7 +30,6 @@
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
                   CanUserResizeRows="False" CanUserSortColumns="False"
                   VirtualizingPanel.ScrollUnit="Pixel" MaxWidth="2000" MaxHeight="1200"
-                  ScrollViewer.ScrollChanged="grid_ScrollChanged"
                   HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -44,7 +43,7 @@
         <ScrollViewer x:Name="previewScroll" Grid.Row="1" Margin="5" Visibility="Hidden"
                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
                       ScrollChanged="previewScroll_ScrollChanged">
-            <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="#F5F5F5">
+            <Canvas x:Name="previewCanvas" Width="17920" Height="17920" Background="White">
                 <local:Squares x:Name="squares"/>
             </Canvas>
         </ScrollViewer>
