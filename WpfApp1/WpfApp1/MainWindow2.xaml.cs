@@ -310,7 +310,10 @@ namespace WpfApp1
 
                 Dispatcher.InvokeAsync(() =>
                 {
-                    previewScroll.Visibility = Visibility.Collapsed;
+                    if (gridPanel.Children.Contains(grid))  // ドラッグ開始終了の連続動作時にプレビュー表示されなくなる問題回避のため
+                    {
+                        previewScroll.Visibility = Visibility.Collapsed;
+                    }
 
                     Cursor = null;
                 }, System.Windows.Threading.DispatcherPriority.Background);
